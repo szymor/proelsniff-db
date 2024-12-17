@@ -22,11 +22,7 @@ def on_connect(client, userdata, flags, rc):
 
 def on_message(client, userdata, msg):
     topic_parts = msg.topic.split('/')
-    if len(topic_parts) >= 3:
-        sniffer_id = topic_parts[1]
-        subtopic = '/'.join(topic_parts[2:])
-        print(f"ID: {sniffer_id}, Subtopic: {subtopic}, Message: {msg.payload.decode()}")
-    elif len(topic_parts) == 3 and topic_parts[2] == "flat":
+    if len(topic_parts) == 3 and topic_parts[2] == "flat":
         sniffer_id = topic_parts[1]
         flat_number = msg.payload.decode()
         timestamp = datetime.now().isoformat()
@@ -40,7 +36,10 @@ def on_message(client, userdata, msg):
         conn.commit()
         conn.close()
         print(f"Stored in DB - ID: {sniffer_id}, Flat: {flat_number}")
-        print(f"Unexpected topic format: {msg.topic}")
+    else:
+        sniffer_id = topic_parts[1]
+        subtopic = '/'.join(topic_parts[2:])
+        print(f"ID: {sniffer_id}, Subtopic: {subtopic}, Message: {msg.payload.decode()}")
 
 def main():
     if len(sys.argv) != 2:
