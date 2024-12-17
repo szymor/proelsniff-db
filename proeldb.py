@@ -5,7 +5,9 @@ import sqlite3
 from datetime import datetime
 import paho.mqtt.client as mqtt
 
-def setup_database():
+def on_connect(client, userdata, flags, rc):
+    print(f"Connected with result code {rc}")
+    client.subscribe("proelsniff/#")
     conn = sqlite3.connect('sniffer_data.db')
     cursor = conn.cursor()
     cursor.execute('''
@@ -17,8 +19,6 @@ def setup_database():
     ''')
     conn.commit()
     conn.close()
-    print(f"Connected with result code {rc}")
-    client.subscribe("proelsniff/#")
 
 def on_message(client, userdata, msg):
     topic_parts = msg.topic.split('/')
