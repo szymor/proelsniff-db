@@ -9,15 +9,15 @@
     <h1>Sniffer Data</h1>
     <table border="1">
         <tr>
+            <th>Timestamp</th>
             <th>Sniffer ID</th>
             <th>Flat</th>
-            <th>Timestamp</th>
         </tr>
         {% for row in data %}
         <tr>
+            <td>{{ row['timestamp'] }}</td>
             <td>{{ row['sniffer_id'] }}</td>
             <td>{{ row['flat'] }}</td>
-            <td>{{ row['timestamp'] }}</td>
         </tr>
         {% endfor %}
     </table>
