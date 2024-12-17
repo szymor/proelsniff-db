@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sniffer Data</title>
+</head>
+<body>
+    <h1>Sniffer Data</h1>
+    <table border="1">
+        <tr>
+            <th>ID</th>
+            <th>Flat</th>
+            <th>Timestamp</th>
+        </tr>
+        {% for row in data %}
+        <tr>
+            <td>{{ row['id'] }}</td>
+            <td>{{ row['flat'] }}</td>
+            <td>{{ row['timestamp'] }}</td>
+        </tr>
+        {% endfor %}
+    </table>
+</body>
+</html>
