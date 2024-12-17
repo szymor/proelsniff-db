@@ -14,7 +14,7 @@ def on_connect(client, userdata, flags, rc):
         CREATE TABLE IF NOT EXISTS sniffer_data (
             timestamp TEXT,
             sniffer_id TEXT,
-            flat TEXT
+            flat INTEGER
         )
     ''')
     conn.commit()
