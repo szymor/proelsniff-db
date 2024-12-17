@@ -8,7 +8,13 @@ def on_connect(client, userdata, flags, rc):
     client.subscribe("proelsniff/#")
 
 def on_message(client, userdata, msg):
-    print(f"{msg.topic} {msg.payload.decode()}")
+    topic_parts = msg.topic.split('/')
+    if len(topic_parts) >= 3:
+        sniffer_id = topic_parts[1]
+        subtopic = '/'.join(topic_parts[2:])
+        print(f"ID: {sniffer_id}, Subtopic: {subtopic}, Message: {msg.payload.decode()}")
+    else:
+        print(f"Unexpected topic format: {msg.topic}")
 
 def main():
     if len(sys.argv) != 2:
