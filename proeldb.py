@@ -47,7 +47,6 @@ def main():
         print("Usage: python proeldb.py <mqtt_server>")
         sys.exit(1)
 
-    setup_database()
     mqtt_server = sys.argv[1]
 
     client = mqtt.Client()
