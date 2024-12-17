@@ -13,7 +13,7 @@ def on_connect(client, userdata, flags, rc):
     cursor.execute('''
         CREATE TABLE IF NOT EXISTS sniffer_data (
             timestamp TEXT,
-            sniffer_id TEXT,
+            sniffer_id INTEGER,
             flat INTEGER
         )
     ''')
