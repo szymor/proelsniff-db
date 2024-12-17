@@ -39,7 +39,7 @@ def on_message(client, userdata, msg):
     else:
         sniffer_id = topic_parts[1]
         subtopic = '/'.join(topic_parts[2:])
-        print(f"ID: {sniffer_id}, Subtopic: {subtopic}, Message: {msg.payload.decode()}")
+        print(f"ID: {hex(int(sniffer_id))}, Subtopic: {subtopic}, Message: {msg.payload.decode()}")
 
 def main():
     if len(sys.argv) != 2:
