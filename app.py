@@ -1,4 +1,4 @@
-from flask import Flask, render_template
+from flask import Flask, render_template, request
 from datetime import datetime
 import sqlite3
 
@@ -11,8 +11,31 @@ def get_db_connection():
 
 @app.route('/')
 def index():
+    # Get filter criteria from query parameters
+    start_time = request.args.get('start_time')
+    end_time = request.args.get('end_time')
+    flat = request.args.get('flat')
+    sniffer_id = request.args.get('sniffer_id')
+
+    # Build the SQL query with optional filters
+    query = 'SELECT * FROM sniffer_data WHERE 1=1'
+    params = {}
+
+    if start_time:
+        query += ' AND timestamp >= :start_time'
+        params['start_time'] = start_time
+    if end_time:
+        query += ' AND timestamp <= :end_time'
+        params['end_time'] = end_time
+    if flat:
+        query += ' AND flat = :flat'
+        params['flat'] = flat
+    if sniffer_id:
+        query += ' AND sniffer_id = :sniffer_id'
+        params['sniffer_id'] = int(sniffer_id, 16)  # Convert hex to int
+
     conn = get_db_connection()
-    data = conn.execute('SELECT * FROM sniffer_data').fetchall()
+    data = conn.execute(query, params).fetchall()
     conn.close()
     # Convert sniffer_id to hexadecimal and format timestamp
     formatted_data = [

@@ -7,7 +7,18 @@
 </head>
 <body>
     <h1>Access Log</h1>
-    <table border="1">
+    <form method="get" action="/">
+        <label for="start_time">Start Time:</label>
+        <input type="datetime-local" id="start_time" name="start_time">
+        <label for="end_time">End Time:</label>
+        <input type="datetime-local" id="end_time" name="end_time">
+        <label for="flat">Flat:</label>
+        <input type="text" id="flat" name="flat">
+        <label for="sniffer_id">Sniffer ID:</label>
+        <input type="text" id="sniffer_id" name="sniffer_id">
+        <button type="submit">Filter</button>
+    </form>
+    <br>
         <tr>
             <th>Timestamp</th>
             <th>Sniffer ID</th>
