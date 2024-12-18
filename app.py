@@ -39,6 +39,7 @@ def index():
             # Otherwise, interpret as decimal
             params['sniffer_id'] = int(sniffer_id)
 
+    query += ' ORDER BY timestamp DESC'
     conn = get_db_connection()
     data = conn.execute(query, params).fetchall()
     conn.close()
