@@ -32,7 +32,12 @@ def index():
         params['flat'] = flat
     if sniffer_id:
         query += ' AND sniffer_id = :sniffer_id'
-        params['sniffer_id'] = int(sniffer_id, 16)  # Convert hex to int
+        if sniffer_id.startswith('0x'):
+            # Interpret as hexadecimal if prefixed with '0x'
+            params['sniffer_id'] = int(sniffer_id, 16)
+        else:
+            # Otherwise, interpret as decimal
+            params['sniffer_id'] = int(sniffer_id)
 
     conn = get_db_connection()
     data = conn.execute(query, params).fetchall()
