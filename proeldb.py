@@ -5,10 +5,12 @@ import sqlite3
 from datetime import datetime
 import paho.mqtt.client as mqtt
 
+dbname = 'accesslog.db'
+
 def on_connect(client, userdata, flags, rc):
     print(f"Connected with result code {rc}")
     client.subscribe("proelsniff/#")
-    conn = sqlite3.connect('sniffer_data.db')
+    conn = sqlite3.connect(dbname)
     cursor = conn.cursor()
     cursor.execute('''
         CREATE TABLE IF NOT EXISTS sniffer_data (
@@ -27,7 +29,7 @@ def on_message(client, userdata, msg):
         flat_number = msg.payload.decode()
         timestamp = datetime.now().isoformat()
 
-        conn = sqlite3.connect('sniffer_data.db')
+        conn = sqlite3.connect(dbname)
         cursor = conn.cursor()
         cursor.execute('''
             INSERT INTO sniffer_data (timestamp, sniffer_id, flat)
