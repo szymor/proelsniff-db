@@ -19,6 +19,12 @@ def on_connect(client, userdata, flags, rc):
             flat INTEGER
         )
     ''')
+    cursor.execute('''
+        CREATE TABLE IF NOT EXISTS setup_times (
+            timestamp TEXT,
+            sniffer_id INTEGER,
+            setup_time TEXT
+        )
     conn.commit()
     conn.close()
 
@@ -38,6 +44,20 @@ def on_message(client, userdata, msg):
         conn.commit()
         conn.close()
         print(f"Stored in DB - ID: {sniffer_id}, Flat: {flat_number}")
+    elif len(topic_parts) == 3 and topic_parts[2] == "setup_time":
+        sniffer_id = topic_parts[1]
+        setup_time = msg.payload.decode()
+        timestamp = datetime.now().isoformat()
+
+        conn = sqlite3.connect(dbname)
+        cursor = conn.cursor()
+        cursor.execute('''
+            INSERT INTO setup_times (timestamp, sniffer_id, setup_time)
+            VALUES (?, ?, ?)
+        ''', (timestamp, sniffer_id, setup_time))
+        conn.commit()
+        conn.close()
+        print(f"Stored setup time in DB - ID: {sniffer_id}, Setup Time: {setup_time}")
     else:
         sniffer_id = topic_parts[1]
         subtopic = '/'.join(topic_parts[2:])
