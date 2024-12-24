@@ -25,6 +25,7 @@ def on_connect(client, userdata, flags, rc):
             sniffer_id INTEGER,
             setup_time TEXT
         )
+    ''')
     conn.commit()
     conn.close()
 
@@ -57,7 +58,7 @@ def on_message(client, userdata, msg):
         ''', (timestamp, sniffer_id, setup_time))
         conn.commit()
         conn.close()
-        print(f"Stored setup time in DB - ID: {sniffer_id}, Setup Time: {setup_time}")
+        print(f"Stored in DB - ID: {sniffer_id}, Setup Time: {setup_time}")
     else:
         sniffer_id = topic_parts[1]
         subtopic = '/'.join(topic_parts[2:])
