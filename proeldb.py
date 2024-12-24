@@ -13,7 +13,7 @@ def on_connect(client, userdata, flags, rc):
     conn = sqlite3.connect(dbname)
     cursor = conn.cursor()
     cursor.execute('''
-        CREATE TABLE IF NOT EXISTS sniffer_data (
+        CREATE TABLE IF NOT EXISTS access_log (
             timestamp TEXT,
             sniffer_id INTEGER,
             flat INTEGER
@@ -32,7 +32,7 @@ def on_message(client, userdata, msg):
         conn = sqlite3.connect(dbname)
         cursor = conn.cursor()
         cursor.execute('''
-            INSERT INTO sniffer_data (timestamp, sniffer_id, flat)
+            INSERT INTO access_log (timestamp, sniffer_id, flat)
             VALUES (?, ?, ?)
         ''', (timestamp, sniffer_id, flat_number))
         conn.commit()

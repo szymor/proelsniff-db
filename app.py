@@ -18,7 +18,7 @@ def index():
     sniffer_id = request.args.get('sniffer_id')
 
     # Build the SQL query with optional filters
-    query = 'SELECT * FROM sniffer_data WHERE 1=1'
+    query = 'SELECT * FROM access_log WHERE 1=1'
     params = {}
 
     if start_time:
